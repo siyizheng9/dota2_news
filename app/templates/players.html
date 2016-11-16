@@ -1,0 +1,42 @@
+
+{% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+{% block title %} Chinese Players {% endblock %}
+{% block navigation %}
+<li><a href="{{ url_for('main.news')}}"><span>News</span></a></li>
+<li class="active"><a href="{{ url_for('main.players')}}">Players</a></li>
+<li><a href="{{ url_for('main.teams')}}">Teams</a></li>
+{% endblock %}
+
+{% block introtitle %} Chinese Players {% endblock %}
+
+	{% block content %}	
+		<section id="product">
+			<div class="container">
+				<div >
+					{% for chunk in chunks %}
+					<div class="post-entry row ">
+						{% for player in chunk %}
+						<div class="col-md-4 ">
+							<div class="post animate-box">
+								
+							    <a href="{{ url_for('main.playerinfo', id=player.id) }}"><img src="{{ url_for('static', filename='images/players/'+player.image) }}"   alt="PlayerPhoto"></a>
+								<div>
+									<h3><a href="{{ url_for('main.playerinfo', id=player.id) }}">{{ player.name }}</a></h3>
+								</div>
+								
+							</div>
+						</div>
+						{% endfor %}
+						
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="pages" role="toolbar" aria-label="Toolbar with button groups" style="text-align: center">
+			    {{ macros.pagination_widget(pagination, '.players') }}
+			</div>
+
+		</section>
+	{% endblock %}

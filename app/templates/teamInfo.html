@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+{% block title %} Team Info {% endblock %}
+{% block intro %}
+{% endblock %}
+		{% block content %}
+		<content>
+			<div class="details container">
+			<div class="row">
+			<div class="col-md-3">
+				<img src="{{ url_for('static', filename='images/teams/'+team.image) }}">
+			</div>
+			<div class="col-md-9">
+				
+
+				<h2><a href="">{{ team.name }}</a></h2>
+
+				<p>{{ team.introduction }}</p><br>
+				<ul class="teamMembers">
+					{% for p in team.players %}
+					<li class="teamMember"><a href="{{ url_for('main.playerinfo', id=p.id)}}"><i class="icon-user"></i>&nbsp;{{ p.name }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			</div>	
+			</div>
+			<div class="relatedNews container">
+			{% for n in news %}
+			<div class="news row">
+							<div class="col-md-1 newsIcon"><img src="{{ url_for('static', filename='images/news/'+n.image) }}" ></div>
+							<div class="newsContent col-md-10">
+								<h4 ><a href="{{ url_for('main.news_detail', id=n.id) }}">{{ n.title }}</a></h4>
+								
+								<p ><span style="padding-right:5em;">{{ moment(n.timestamp).format('LL') }}</span><i class="icon-comment">&nbsp;</i><span>{{ n.comments.count() }}</span></p>
+							</div>
+			</div>
+			{% endfor %}
+				<div class="pages" role="toolbar" aria-label="Toolbar with button groups" style="text-align: center">
+			    {{ macros.pagination_widget(pagination, '.teaminfo', id=team.id) }}
+			</div>
+			</div>
+		</content>
+		
+   {% endblock %}

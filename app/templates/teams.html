@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+{% block title %} Teams {% endblock %}
+{% block navigation %}
+<li><a href="{{ url_for('main.news')}}"><span>News</span></a></li>
+<li><a href="{{ url_for('main.players')}}">Players</a></li>
+<li  class="active"><a href="{{ url_for('main.teams')}}">Teams</a></li>
+{% endblock %}
+
+{% block introtitle %} Teams {% endblock %}
+
+		{% block content %}	
+		<section id="product">
+			<div class="container">
+				{% for chunk in chunks %}
+					<div class="post-entry row">
+						{% for team in chunk %}
+						<div class="col-md-4">
+							<div class="post animate-box">
+							    <a href="{{ url_for('main.teaminfo', id=team.id) }}"><img src="{{ url_for('static', filename='images/teams/'+team.image) }}" alt="Product"></a>
+								<div>
+									<h3><a href="{{ url_for('main.teaminfo', id=team.id) }}">{{ team.name }}</a></h3>
+
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						</div>
+						{% endfor %}
+
+				</div>
+				
+			<div class="pages" role="toolbar" aria-label="Toolbar with button groups" style="text-align: center">
+			    {{ macros.pagination_widget(pagination, '.teams') }}
+			</div>
+		</section>
+	{% endblock %}
+		
+
+		

@@ -1,0 +1,69 @@
+
+{% extends 'base.html' %}
+{% import "_macros.html" as macros %}
+{% block navigation %}
+<li class="active"><a href="{{ url_for('main.news')}}"><span>News</span></a></li>
+<li><a href="{{ url_for('main.players')}}">Players</a></li>
+<li><a href="{{ url_for('main.teams')}}">Teams</a></li>
+{% endblock %}
+{% block content %}
+		<section id="work">
+			<div class="container">
+				{% for news in chunks %}
+				<div class="row">
+					{% for n in news %}
+					<div class="col-md-4">
+					<div class="showcase animate-box">
+						<div class="fh5co-grid animate-box" style="background-image: url({{ url_for('static', filename='images/news/'+n.image)}});">
+							<a class="image-popup text-center" href="{{ url_for('main.news_detail', id=n.id) }}">
+								<div class="work-title">
+									
+									<span><i class="icon-comment"></i>&nbsp;{{ n.comments.count() }}
+									</span>
+									<span><i class="icon-heart"></i>&nbsp;2345
+									</span>
+								</div>
+							</a>
+						</div>
+						<h4>&#9614 {{ n.title }}</h4>
+						<div class="credits">
+						<p class="col-md-4">{{ moment(n.timestamp).format('YYYY-MM-DD') }}</p> 
+						<div class="tags  clearfix col-md-offset-4">
+						{% for p in n.related_players %} 
+
+						<div class="tag clearfix">
+						<div class="triangle-left">
+						</div>
+						<div class="rectangle">
+						<a href="{{ url_for('main.playerinfo', id=p.id) }}" style="color: #fff">{{ p.name }}</a>
+						</div>
+						</div>
+						{% endfor %}
+						{% for t in n.related_teams %}
+
+						<div class="tag clearfix">
+
+						<div class="triangle-left">
+						</div>
+						<div class="rectangle">
+						<a href="{{ url_for('main.teaminfo', id=t.id) }}" style="color: #fff">{{ t.name }}</a>
+						</div>
+						</div>
+						{% endfor %}
+
+						</div>
+						</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				{% endfor %}
+
+			<div class="pages" role="toolbar" aria-label="Toolbar with button groups" style="text-align: center">
+			    {{ macros.pagination_widget(pagination, '.news') }}
+			</div>
+			
+		</section>
+{% endblock %}
+
+		 
