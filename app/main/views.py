@@ -4,6 +4,13 @@ from ..models import User, News, Player, Team
 from ..email import send_email
 from . import main
 from .forms import NameForm
+from .. import admin
+from flask_admin.contrib.sqla import ModelView
+
+
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Player, db.session))
+admin.add_view(ModelView(Team, db.session))
 
 
 @main.route('/')
