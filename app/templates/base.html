@@ -59,8 +59,12 @@
                         </div>
                        <div class="col-md-3">
                             <ul class="social">
-                                <li><a href="#">Log in</a></li>
+				{% if current_user.is_authenticated %}
+				<li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+				{% else %}
+				<li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
                                 <li><a href="#">Sign up</a></li>
+				{% endif %}
                             </ul>
                         </div>
                     </div>
@@ -84,7 +88,7 @@
             </div>
  </section>
 
-{% endblock%}
+{% endblock %}
 
 {% block content %}
 
