@@ -1,6 +1,6 @@
 from datetime import datetime
 import hashlib
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask import current_app, request
 from flask_login import AnonymousUserMixin
@@ -93,6 +93,9 @@ class User(db.Model):
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def can(self, permissions):
         return self.role is not None and \
