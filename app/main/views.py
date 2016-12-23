@@ -1,11 +1,13 @@
-from flask import render_template, session, redirect, url_for, current_app, send_from_directory, request
+from flask import render_template, session, redirect, url_for, current_app, \
+    send_from_directory, request
 from .. import db
-from ..models import User, News, Player, Team
+from ..models import User, News, Player, Team, Comment
 from ..email import send_email
-from . import main
-from .forms import NameForm
 from .. import admin
 from flask_admin.contrib.sqla import ModelView
+from . import main
+from flask_login import current_user
+from .forms import NameForm, CommentForm
 
 
 admin.add_view(ModelView(User, db.session))
@@ -21,7 +23,14 @@ def index():
 @main.route('/news_detail/<int:id>', methods=['GET', 'POST'])
 def news_detail(id):
     news = News.query.get_or_404(id)
-    return render_template('news_detail.html', news=news)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          news=news,
+                          author=current_user._get_current_object())
+        db.session.add(comment)
+        return redirect(url_for('.news_detail', id=news.id))
+    return render_template('news_detail.html', news=news, form=form)
 
 
 @main.route('/news')
