@@ -5,7 +5,7 @@ from . import auth
 from ..email import send_email
 from ..models import User
 from .forms import LoginForm, RegistrationForm, PasswordResetRequestForm, \
-        PasswordResetForm
+        PasswordResetForm, ChangePasswordForm
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -69,3 +69,15 @@ def password_reset(token):
         else:
             return redirect(url_for('main.index'))
     return render_template('auth/reset_password.html', form=form)
+
+
+@auth.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            current_user.password = form.password.data
+            db.session.add(current_user)
+            return redirect(url_for('main.index'))
+    return render_template("auth/change_password.html", form=form)
