@@ -265,6 +265,7 @@ class News(db.Model):
                                     lazy='dynamic')
     original_source = db.Column(db.String(128))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    hearts = db.Column(db.Integer, default=0)
     comments = db.relationship('Comment', backref='news', lazy='dynamic')
 
     @staticmethod

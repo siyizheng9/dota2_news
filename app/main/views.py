@@ -89,3 +89,16 @@ def teaminfo(id):
 @main.route('/aboutus')
 def aboutus():
     return render_template('aboutus.html')
+
+
+@main.route('/like/<int:id>')
+def like(id):
+    news = News.query.filter_by(id=id).first()
+    if news is None:
+        return redirect(url_for('.index'))
+    else:
+        hearts = news.hearts + 1
+        news.hearts = hearts
+        db.session.add(news)
+        db.session.commit()
+        return redirect(url_for('.news_detail', id=id))

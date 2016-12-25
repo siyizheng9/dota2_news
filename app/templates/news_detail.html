@@ -53,7 +53,9 @@
 					<div class="text-center" id="socialIcon">
 						<span><i class="icon-comment"></i>&nbsp;{{ news.comments.count() }}
 									</span>
-									<span><i class="icon-heart"></i>&nbsp;2345
+									<span>
+										<a href="{{ url_for('.like', id=news.id) }}">
+										<i class="icon-heart"></i>&nbsp;{{ news.hearts }}</a>
 									</span>
 									<span><i class="icon-share2"></i></span>
 

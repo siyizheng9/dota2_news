@@ -1,3 +1,5 @@
+# python manager.py shell
+#>> from app.jsondb import jsontodb 
 import json
 from .. import create_app, db
 from ..models import User, Role, News, Player, Team, Comment
